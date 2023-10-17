@@ -1,0 +1,7 @@
+sample/spring/security/util/MockBearerTokenRequestPostProcessor.class
+sample/spring/security/junitjupiter/TestControllerIasTest.class
+sample/spring/security/ApplicationTest.class
+sample/spring/security/util/MockBearerTokenRequestPostProcessor$BearerTokenRequestPostProcessor.class
+sample/spring/security/junitjupiter/ApplicationTest.class
+sample/spring/security/junitjupiter/TestControllerXsuaaTest.class
+sample/spring/security/TestControllerTest.class
