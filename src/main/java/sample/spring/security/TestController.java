@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,19 +44,40 @@ public class TestController {
         this.dataService = dataService;
     }
 
+
     @GetMapping("/getToken")
-    public String getToken() throws IOException, InterruptedException {
-        String command = "curl -XPOST -u '4766c702-bc0f-4b4a-87bb-2a843f0180e9:2Hr]k15@55lCgnvLqyE/:[]RpIcguT6' " +
-                "https://aey0y39na.trial-accounts.ondemand.com/oauth2/token \\\n" +
-                "     -d 'grant_type=password&username=hagarnabil7@gmail.com&password=H@g@rN117!'";
-        ProcessBuilder builder = new ProcessBuilder(command);
-        builder.redirectErrorStream(true);
-        Process process = builder.start();
+    public String getToken() throws Exception {
 
-        InputStream response = process.getInputStream();
-        return response.toString();
+        String clientId = "4766c702-bc0f-4b4a-87bb-2a843f0180e9";
+        String clientPassword = "2Hr]k15@55lCgnvLqyE/:[]RpIcguT6";
+        String username = "hagarnabil7@gmail.com";
+        String password = "H@g@rN117!";
+        String url = "https://aey0y39na.trial-accounts.ondemand.com/oauth2/token";
+
+
+        String[] command = {"curl", "-X", "POST", "-u", "'" + clientId + ":" + clientPassword + "'", url, "-d", "'grant_type=password&username=", username + "&password=" + password + "'"};
+
+        ProcessBuilder process = new ProcessBuilder(command);
+        Process p;
+        String result = null;
+        try {
+            p = process.start();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            StringBuilder builder = new StringBuilder();
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+                builder.append(System.getProperty("line.separator"));
+            }
+            result = builder.toString();
+            System.out.print(result);
+
+        } catch (IOException e) {
+            System.out.print("error");
+            e.printStackTrace();
+        }
+        return result;
     }
-
 
     /**
      * Returns the detailed information of the XSUAA JWT token. Uses a Token retrieved from the security context of
